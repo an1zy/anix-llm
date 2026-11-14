@@ -12,11 +12,11 @@ export function PageHeader({
   divider?: boolean
 }) {
   return (
-    <div className={`flex flex-wrap md:flex-nowrap items-end justify-between gap-6 mb-6 ${divider ? 'pb-6 border-b' : ''}`}>
-      <div className="min-w-0">
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+    <div className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 ${divider ? 'pb-6 border-b' : ''}`}>
+      <div className="min-w-0 max-w-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight text-neutral-100">{title}</h1>
         {description && (
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
+          <p className="text-sm text-neutral-400 mt-1">{description}</p>
         )}
       </div>
       {actions && <div className="flex max-w-full flex-wrap items-center gap-2 shrink-0">{actions}</div>}

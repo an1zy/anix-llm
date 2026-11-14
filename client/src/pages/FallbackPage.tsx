@@ -36,6 +36,7 @@ import {
   type TokenUsageData,
 } from '@/lib/routing'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { CustomWeightsPopover } from '@/components/custom-weights-popover'
 import { EmptyState } from '@/components/empty-state'
 import { GettingStarted } from '@/components/getting-started'
@@ -340,8 +341,10 @@ export default function FallbackPage() {
         title={t('models.title')}
         description={t('strategies.description')}
         divider={false}
-        actions={<ModelsTabs />}
       />
+      <div className="mb-6 flex overflow-x-auto">
+        <ModelsTabs />
+      </div>
 
       <div className="space-y-6">
         {/* First-run checklist: hides itself once the install has keys + a request */}
@@ -377,13 +380,15 @@ export default function FallbackPage() {
           {/* Pills left, the quiet "More options" disclosure right. Everything
               secondary hangs off that toggle so the card reads as one choice. */}
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="inline-flex flex-wrap items-center gap-1 rounded-xl border p-1">
+            <div className="inline-flex flex-wrap items-center gap-1.5 rounded-full border border-white/10 bg-neutral-950 p-1.5 shadow-inner">
               {STRATEGIES.map(s => {
-                const pillClass = `px-3 py-1.5 text-xs rounded-lg transition-colors ${
-                  s.key === strategy
-                    ? 'bg-foreground text-background font-medium'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`
+                const isSelected = s.key === strategy
+                const pillClass = cn(
+                  "px-3.5 py-1.5 text-xs font-medium rounded-full cursor-pointer",
+                  isSelected
+                    ? "btn-volumetric-primary"
+                    : "btn-volumetric text-neutral-300 hover:text-white"
+                )
                 // Decision with nothing able to decide (#1354): the pill opens a
                 // setup guide instead of switching to a strategy that would
                 // route everything as Balanced.
@@ -578,34 +583,34 @@ export default function FallbackPage() {
                 <button
                   onClick={() => setFilterVision(v => !v)}
                   aria-pressed={filterVision}
-                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${filterVision ? 'bg-foreground text-background border-foreground font-medium' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                  className={filterVision ? 'btn-volumetric-primary px-3.5 py-1.5 text-xs' : 'btn-volumetric px-3.5 py-1.5 text-xs text-neutral-300 hover:text-white'}
                 >
                   {t('models.vision')}
                 </button>
                 <button
                   onClick={() => setFilterTools(v => !v)}
                   aria-pressed={filterTools}
-                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${filterTools ? 'bg-foreground text-background border-foreground font-medium' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                  className={filterTools ? 'btn-volumetric-primary px-3.5 py-1.5 text-xs' : 'btn-volumetric px-3.5 py-1.5 text-xs text-neutral-300 hover:text-white'}
                 >
                   {t('models.tools')}
                 </button>
-                <div className="inline-flex items-center gap-1 rounded-xl border p-1" role="group" aria-label={t('models.ctxTitle')}>
+                <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-neutral-950 p-1 shadow-inner" role="group" aria-label={t('models.ctxTitle')}>
                   {CTX_BUCKETS.map(b => (
                     <button
                       key={b.key}
                       onClick={() => setMinContext(b.key)}
-                      className={`px-2.5 py-1 text-xs rounded-lg transition-colors tabular-nums ${minContext === b.key ? 'bg-foreground text-background font-medium' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                      className={`px-3 py-1 text-xs rounded-full transition-all tabular-nums ${minContext === b.key ? 'btn-volumetric-primary' : 'btn-volumetric text-neutral-300 hover:text-white'}`}
                     >
                       {b.tKey ? t(`models.${b.tKey}`) : b.label}
                     </button>
                   ))}
                 </div>
-                <div className="inline-flex items-center gap-1 rounded-xl border p-1" role="group" aria-label={t('models.bulkToggle')}>
+                <div className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-neutral-950 p-1 shadow-inner" role="group" aria-label={t('models.bulkToggle')}>
                   <Tooltip text={t('models.enableAllHint')}>
                     <button
                       onClick={() => handleBulkToggle(true)}
                       disabled={visibleEnabledCount === visibleGroups.length}
-                      className="rounded-lg px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40 disabled:hover:bg-transparent"
+                      className="btn-volumetric rounded-full px-3 py-1 text-xs text-neutral-300 hover:text-white disabled:opacity-40"
                     >
                       {t('models.enableAll')}
                     </button>
@@ -614,7 +619,7 @@ export default function FallbackPage() {
                     <button
                       onClick={() => handleBulkToggle(false)}
                       disabled={visibleEnabledCount === 0}
-                      className="rounded-lg px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40 disabled:hover:bg-transparent"
+                      className="btn-volumetric rounded-full px-3 py-1 text-xs text-neutral-300 hover:text-white disabled:opacity-40"
                     >
                       {t('models.disableAll')}
                     </button>

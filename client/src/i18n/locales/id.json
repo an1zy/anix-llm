@@ -16,7 +16,8 @@
     "modelsMenu": "Telusuri jenis model",
     "agents": "Agen",
     "logs": "Log",
-    "analyticsMenu": "Halaman analisis"
+    "analyticsMenu": "Halaman analisis",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Buat akun Anda",

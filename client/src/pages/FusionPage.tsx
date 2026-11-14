@@ -134,8 +134,10 @@ export default function FusionPage() {
         title={t('fusion.title')}
         description={t('fusion.description')}
         divider={false}
-        actions={<ModelsTabs />}
       />
+      <div className="mb-6 flex overflow-x-auto">
+        <ModelsTabs />
+      </div>
 
       {isLoading ? (
         <p className="text-sm text-muted-foreground">{t('common.loading')}</p>

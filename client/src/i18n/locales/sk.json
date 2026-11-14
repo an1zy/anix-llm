@@ -16,7 +16,8 @@
     "modelsMenu": "Prehliadať typy modelov",
     "agents": "Agenti",
     "logs": "Logy",
-    "analyticsMenu": "Stránky analytiky"
+    "analyticsMenu": "Stránky analytiky",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Vytvorte si účet",

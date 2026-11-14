@@ -785,3 +785,103 @@ export interface ModelTestResult {
   latencyMs: number;
   error?: string;
 }
+
+export type DropStatus = 'active' | 'expiring' | 'depleted';
+export type DropCategory = 'all' | 'llm' | 'coding' | 'voice' | 'search' | 'image' | 'infra';
+export type DropAuthScheme = 'bearer' | 'x-api-key' | 'x-goog-api-key' | 'token';
+
+export interface DropItem {
+  id: string;
+  providerName: string;
+  platform?: string;
+  logoUrl?: string;
+  category: 'llm' | 'coding' | 'voice' | 'search' | 'image' | 'infra';
+  badges: string[];
+  bonusTitle: string;
+  bonusDesc: string;
+  limits: string;
+  modelsAvailable: string[];
+  claimUrl: string;
+  baseUrl: string;
+  validationEndpoint?: string;
+  requiresCreditCard: boolean;
+  status: DropStatus;
+  agentScore?: number;
+  discoveredAt: string;
+  lastCheckedAt: string;
+  verifiedAt?: string;
+  sourceUrl?: string;
+  apiKeyPlaceholder?: string;
+  keyPrefix?: string;
+  authScheme?: DropAuthScheme;
+  needsReview?: boolean;
+  isNew?: boolean;
+  reward?: string;
+  expiresNote?: string;
+  rateLimits?: string;
+  noCreditCardRequired?: boolean;
+}
+
+export interface DropsRadarState {
+  lastScannedAt: string;
+  nextScanAt: string;
+  scanStatus: 'idle' | 'scanning' | 'error';
+  sourcesChecked: string[];
+  totalDrops: number;
+  activeCount: number;
+  agentReadyCount: number;
+  drops: DropItem[];
+}
+
+export interface DropKeyValidationRequest {
+  dropId: string;
+  apiKey: string;
+}
+
+export interface DropKeyValidationResult {
+  valid: boolean;
+  upstreamStatus?: number;
+  message?: string;
+}
+
+/** Нормализация URL провайдера для строгого сопоставления */
+export function normalizeDropBaseUrl(url: string): string {
+  return url.trim().toLowerCase().replace(/\/+$/, '').replace(/\/v1$/, '');
+}
+
+/**
+ * Проверка подключения ключа к раздаче:
+ * 1. По явному маркеру [drop:id] в label ключа
+ * 2. По идентичному baseUrl (для кастомных эндпоинтов вроде Coarena)
+ * 3. По нативной платформе (если это не 'custom')
+ */
+export function isDropConnected(
+  drop: Pick<DropItem, 'id' | 'platform' | 'baseUrl'>,
+  apiKeys: Array<{ label?: string | null; platform?: string | null; provider?: string | null; baseUrl?: string | null }>
+): boolean {
+  if (!drop || !apiKeys || apiKeys.length === 0) return false;
+
+  const dropTag = `[drop:${drop.id}]`;
+  const dropNormalizedUrl = drop.baseUrl ? normalizeDropBaseUrl(drop.baseUrl) : '';
+
+  return apiKeys.some(k => {
+    // 1. По явному маркеру [drop:id] в label
+    if (k.label && k.label.includes(dropTag)) return true;
+
+    // 2. По совпадению baseUrl
+    if (dropNormalizedUrl && k.baseUrl) {
+      if (normalizeDropBaseUrl(k.baseUrl) === dropNormalizedUrl) return true;
+    }
+
+    // 3. По нативной платформе (если это не custom)
+    if (drop.platform && drop.platform !== 'custom') {
+      const p = drop.platform.toLowerCase();
+      if (k.platform?.toLowerCase() === p || k.provider?.toLowerCase() === p) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+}
+

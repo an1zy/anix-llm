@@ -16,7 +16,8 @@
     "modelsMenu": "Durchsuchen Sie Modelltypen",
     "agents": "Agenten",
     "logs": "Protokoll",
-    "analyticsMenu": "Analytik-Seiten"
+    "analyticsMenu": "Analytik-Seiten",
+    "drops": "Aktionen"
   },
   "auth": {
     "createYourAccount": "Erstellen Sie Ihr Konto",

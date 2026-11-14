@@ -161,7 +161,7 @@ function isCrossSite(req: Request): boolean {
 }
 
 export function desktopSignInAllowed(req: Request): boolean {
-  if (process.env.FREEAPI_DESKTOP !== '1') return false;
+  if (process.env.ANIX_DESKTOP !== '1' && process.env.FREEAPI_DESKTOP !== '1') return false;
   if (!isLoopbackRemote(req)) return false;
   const host = hostnameOf(req.headers.host);
   if (!host || !LOCAL_HOSTNAMES.has(host)) return false;

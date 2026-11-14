@@ -78,39 +78,42 @@ export default function KeysPage() {
   })
 
   return (
-    <div>
+    <div className="space-y-6">
       <PageHeader
         title={t('keys.pageTitle')}
         description={t('keys.pageDescription')}
         actions={
-          <>
+          <div className="flex flex-wrap items-center gap-2">
             {(tab === 'providers' || tab === 'quotaSignals') && keys.length > 0 && (
-              <Button variant="outline" size="sm" onClick={() => checkAll.mutate()} disabled={checkAll.isPending}>
+              <Button variant="outline" size="sm" onClick={() => checkAll.mutate()} disabled={checkAll.isPending} className="font-mono text-xs">
                 {checkAll.isPending ? t('keys.checking') : t('keys.checkAll')}
               </Button>
             )}
             {keys.length > 0 && (
-              <Button variant="outline" size="sm" onClick={() => setExportOpen(true)}>
-                <Download className="size-3.5" />
+              <Button variant="outline" size="sm" onClick={() => setExportOpen(true)} className="font-mono text-xs">
+                <Download className="size-3.5 mr-1.5" />
                 {t('keys.export')}
               </Button>
             )}
             {tab === 'providers' && (
-              <Button size="sm" onClick={() => openAddKey()}>
-                <Plus className="size-3.5" />
+              <Button size="sm" onClick={() => openAddKey()} className="font-mono text-xs">
+                <Plus className="size-3.5 mr-1.5" />
                 {t('keys.addKey')}
               </Button>
             )}
-            <SegmentedControl
-              value={tab}
-              onValueChange={setTab}
-              options={KEYS_TABS.map(tb => ({ value: tb.id, label: t(tb.labelKey) }))}
-              ariaLabel={t('keys.pageTitle')}
-              className="w-full sm:w-auto"
-            />
-          </>
+          </div>
         }
       />
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <SegmentedControl
+          value={tab}
+          onValueChange={setTab}
+          options={KEYS_TABS.map(tb => ({ value: tb.id, label: t(tb.labelKey) }))}
+          ariaLabel={t('keys.pageTitle')}
+          className="w-full sm:w-auto"
+        />
+      </div>
 
       <div className="space-y-8">
         {tab === 'apiKey' && (

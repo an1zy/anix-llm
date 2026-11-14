@@ -16,7 +16,8 @@
     "modelsMenu": "नमूना प्रकार ब्राउज गर्नुहोस्",
     "agents": "एजेन्टहरू",
     "logs": "लग",
-    "analyticsMenu": "एनालिटिक्स पृष्ठहरू"
+    "analyticsMenu": "एनालिटिक्स पृष्ठहरू",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "तपाईँको खाता सिर्जना गर्नुहोस्",

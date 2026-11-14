@@ -16,7 +16,8 @@
     "modelsMenu": "Naršyti modelių tipus",
     "agents": "Agentai",
     "logs": "Žurnalas",
-    "analyticsMenu": "Analizės puslapiai"
+    "analyticsMenu": "Analizės puslapiai",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Sukurkite savo paskyrą",

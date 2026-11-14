@@ -2,7 +2,7 @@ import { Router } from 'express';
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 import type { Platform } from '@freellmapi/shared/types.js';
-import { getDb } from '../db/index.js';
+import { getDb, getSetting } from '../db/index.js';
 import { getProvider, hasProvider } from '../providers/index.js';
 import { deleteUnusedCustomEndpointKey } from '../lib/custom-provider-cleanup.js';
 import {
@@ -18,7 +18,7 @@ import { getActiveProfileId, ensureModelInProfiles } from '../services/profile-m
 import { endpointScopeForBaseUrl, endpointScopeOfKey, qualifiedModelMemberId } from '../lib/endpoint-scope.js';
 import { clearCustomModelTombstone, recordCustomModelTombstone } from '../services/custom-model-tombstone.js';
 import { customModelSeed } from '../services/custom-model-seed.js';
-import { routePinnedModel, failureAttributionFor } from '../services/router.js';
+import { routePinnedModel, failureAttributionFor, routeRequest, resolveRoutingChain, type ResolvedChain } from '../services/router.js';
 import { logRequest } from '../lib/request-log.js';
 import { withKeyProxy } from '../lib/proxy.js';
 import { sanitizeProviderErrorMessage } from '../lib/error-redaction.js';
@@ -467,7 +467,143 @@ modelsRouter.post('/:id/test', async (req: Request, res: Response) => {
   } finally {
     route.release?.();
   }
+});
 
+// Diagnostic tool-calling probe for agents (auto:coding or specified model)
+// Directly evaluates router capabilities and model function calling without loopback HTTP fetches
+modelsRouter.post('/test-agent-chain', async (req: Request, res: Response) => {
+  const modelName = (req.body?.model || 'auto:coding') as string;
+  const startTime = Date.now();
+
+  let chainResolved: ResolvedChain;
+  let fallbackNotice: string | undefined;
+
+  try {
+    chainResolved = resolveRoutingChain(modelName);
+  } catch (_err: unknown) {
+    // If requested profile (e.g. coding) not found, fall back to 'auto'
+    try {
+      chainResolved = resolveRoutingChain('auto');
+      fallbackNotice = `Профиль '${modelName}' не найден, использован базовый профиль 'auto'`;
+    } catch (_autoErr: unknown) {
+      res.json({
+        success: false,
+        reason: 'no_keys',
+        error: 'В системе нет активных профилей или моделей для тестирования',
+        latencyMs: 0,
+        toolCallsValid: false,
+      });
+      return;
+    }
+  }
+
+  const route = routeRequest(
+    1000,
+    undefined,
+    undefined,
+    false,
+    true, // requireTools = true (диагностика агентов требует поддержки tool calling)
+    undefined,
+    chainResolved.chain,
+    false,
+    undefined,
+    100,
+    'code',
+    chainResolved.strategyOverride
+  );
+
+  if (!route) {
+    res.json({
+      success: false,
+      reason: 'no_keys',
+      error: 'В пуле нет доступных моделей или активных ключей с поддержкой tool_calls. Подключите ключ в разделе «Раздачи» или «Ключи».',
+      latencyMs: 0,
+      toolCallsValid: false,
+      fallbackNotice,
+    });
+    return;
+  }
+
+  const tools = [{
+    type: 'function' as const,
+    function: {
+      name: 'get_current_weather',
+      description: 'Get current weather in a given city',
+      parameters: {
+        type: 'object',
+        properties: {
+          city: { type: 'string', description: 'City name' },
+        },
+        required: ['city'],
+      },
+    },
+  }];
+
+  const messages = [{
+    role: 'user' as const,
+    content: 'What is the weather in Tokyo? You MUST call the get_current_weather function.',
+  }];
+
+  try {
+    const response = await withKeyProxy(route.proxyUrl, () =>
+      route.provider.chatCompletion(route.apiKey, messages, route.modelId, {
+        tools,
+        tool_choice: 'auto',
+        max_tokens: 150,
+        timeoutMs: 12_000,
+      })
+    );
+
+    const latencyMs = Date.now() - startTime;
+    const choice = response.choices?.[0];
+    const message = choice?.message;
+    const toolCalls = message?.tool_calls;
+
+    if (toolCalls && toolCalls.length > 0) {
+      let parsedArgs: Record<string, unknown> | null = null;
+      try {
+        parsedArgs = JSON.parse(toolCalls[0].function?.arguments || '{}');
+      } catch {}
+      res.json({
+        success: true,
+        reason: 'success',
+        toolCallsValid: true,
+        model: `${route.platform}:${route.modelId}`,
+        latencyMs,
+        toolCall: {
+          name: toolCalls[0].function?.name,
+          arguments: parsedArgs,
+        },
+        fallbackNotice,
+      });
+    } else {
+      res.json({
+        success: false,
+        reason: 'no_tool_calls',
+        toolCallsValid: false,
+        model: `${route.platform}:${route.modelId}`,
+        latencyMs,
+        rawText: contentToString(message?.content) || '',
+        error: 'Модель ответила обычным текстом вместо вызова функции (tool_calls)',
+        fallbackNotice,
+      });
+    }
+  } catch (err: unknown) {
+    const latencyMs = Date.now() - startTime;
+    const errMsg = err instanceof Error ? err.message : String(err);
+    const isTimeout = errMsg.toLowerCase().includes('timeout') || errMsg.toLowerCase().includes('abort');
+    res.json({
+      success: false,
+      reason: isTimeout ? 'timeout' : 'provider_error',
+      toolCallsValid: false,
+      model: `${route.platform}:${route.modelId}`,
+      latencyMs,
+      error: sanitizeProviderErrorMessage(errMsg),
+      fallbackNotice,
+    });
+  } finally {
+    route.release?.();
+  }
 });
 
 // List all models with availability info

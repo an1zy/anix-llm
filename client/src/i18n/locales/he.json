@@ -16,7 +16,8 @@
     "modelsMenu": "דפדוף בסוגי דגמים",
     "agents": "סוכנים",
     "logs": "יומן",
-    "analyticsMenu": "דפי אנליטיקה"
+    "analyticsMenu": "דפי אנליטיקה",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "צור את החשבון שלך",

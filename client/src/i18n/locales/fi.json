@@ -16,7 +16,8 @@
     "modelsMenu": "Selaa mallityyppejä",
     "agents": "Agentit",
     "logs": "Lokit",
-    "analyticsMenu": "Analytiikkasivut"
+    "analyticsMenu": "Analytiikkasivut",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Luo tilisi",

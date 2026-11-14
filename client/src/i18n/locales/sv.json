@@ -16,7 +16,8 @@
     "modelsMenu": "Bläddra bland modelltyper",
     "agents": "Agenter",
     "logs": "Loggar",
-    "analyticsMenu": "Analyssidor"
+    "analyticsMenu": "Analyssidor",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Skapa ditt konto",

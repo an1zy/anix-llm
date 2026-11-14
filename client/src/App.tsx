@@ -47,6 +47,7 @@ import LogsPage from '@/pages/LogsPage'
 import PremiumPage from '@/pages/PremiumPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import AgentsPage from '@/pages/AgentsPage'
+import FreeDropsPage from '@/pages/FreeDropsPage'
 
 // Every failed mutation surfaces as an error toast, so no action fails
 // silently. A page that already shows the failure inline can opt out with
@@ -73,6 +74,7 @@ const navItems = [
   { to: '/models', labelKey: 'nav.models' },
   { to: '/playground', labelKey: 'nav.playground' },
   { to: '/keys', labelKey: 'nav.keys' },
+  { to: '/drops', labelKey: 'nav.drops' },
   { to: '/agents', labelKey: 'nav.agents' },
   { to: '/analytics', labelKey: 'nav.analytics' },
   { to: '/premium', labelKey: 'nav.premium' },
@@ -140,9 +142,10 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 
 function Brand() {
   return (
-    <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-70">
-      <span className="inline-block size-2 rounded-full bg-foreground" />
-      <span className="font-semibold tracking-tight text-sm">FreeLLMAPI</span>
+    <Link to="/" className="flex items-center gap-2 transition-all duration-200 hover:opacity-80 group">
+      <span className="font-mono font-bold tracking-widest text-sm text-foreground uppercase">
+        ANIX
+      </span>
     </Link>
   )
 }
@@ -495,6 +498,7 @@ function App() {
                       <Route path="/models/decision" element={<DecisionPage />} />
                       <Route path="/playground" element={<PlaygroundPage />} />
                       <Route path="/keys" element={<KeysPage />} />
+                      <Route path="/drops" element={<FreeDropsPage />} />
                       <Route path="/agents" element={<AgentsPage />} />
                       <Route path="/fallback" element={<Navigate to="/models/chat" replace />} />
                       <Route path="/analytics" element={<AnalyticsPage />} />

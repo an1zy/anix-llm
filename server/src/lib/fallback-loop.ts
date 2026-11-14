@@ -338,11 +338,25 @@ export function isApinexCheckinRequired(platform: string, err: any): boolean {
 }
 
 export function cooldownDecisionForError(route: RouteResult, err: any): CooldownDecision {
+  const errMsg = String(err?.message ?? '');
+  const retryMatch = errMsg.match(/retry after (\d+)\s*s/i) || errMsg.match(/retry in (\d+)\s*s/i);
+  if (retryMatch) {
+    const secs = parseInt(retryMatch[1], 10);
+    if (Number.isFinite(secs) && secs > 0) {
+      return { durationMs: Math.max(secs * 1000, 10_000), source: 'authoritative' };
+    }
+  }
+
   // Account-wide check-in gate. Persist its provenance, keep the existing
   // cross-model bench, but re-attempt on real client traffic after 15 minutes.
   // Never clear a proven 402 merely because /balance validated the key.
   if (isApinexCheckinRequired(route.platform, err)) return { durationMs: 15 * 60_000, source: 'checkin' };
-  if (isPaymentRequiredError(err)) return { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' };
+  if (isPaymentRequiredError(err)) {
+    if (route.platform === 'custom' || /free limit reached|per ip|try again in/i.test(errMsg)) {
+      return { durationMs: 45_000, source: 'heuristic' };
+    }
+    return { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' };
+  }
   // Before the model-forbidden check: a suspended account is a 403 too, but
   // it is the KEY that is out, for as long as an empty balance would be — and
   // under the same operator ceiling (#952).

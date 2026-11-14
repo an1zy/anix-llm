@@ -9,6 +9,7 @@ import { startCooldownProbe } from './services/cooldown-probe.js';
 import { startModelProbe } from './services/model-probe.js';
 import { startCustomModelSync } from './services/custom-model-sync.js';
 import { startBuiltinModelDiscovery } from './services/builtin-model-discovery.js';
+import { startDropsCrawler } from './services/drops-crawler.js';
 import { installProcessSafetyNet } from './lib/process-safety-net.js';
 import { NodeScheduler } from './lib/scheduler.js';
 import { loadConfig } from './lib/config.js';
@@ -90,6 +91,7 @@ async function main() {
     startBackupScheduler(scheduler);
     startCustomModelSync(getDb(), scheduler);
     startBuiltinModelDiscovery(getDb(), scheduler);
+    startDropsCrawler(scheduler);
 
     // Post-sleep recovery: while the host was suspended (laptop lid, VM
     // pause) timers and keep-alive sockets froze, so the first requests after

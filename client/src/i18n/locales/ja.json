@@ -16,7 +16,8 @@
     "modelsMenu": "モデルタイプを参照する",
     "agents": "エージェント",
     "logs": "ログ",
-    "analyticsMenu": "分析ページ"
+    "analyticsMenu": "分析ページ",
+    "drops": "ドロップ"
   },
   "auth": {
     "createYourAccount": "アカウントを作成する",

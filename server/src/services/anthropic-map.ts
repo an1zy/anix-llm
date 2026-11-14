@@ -20,7 +20,7 @@ export type ClaudeFamily = (typeof CLAUDE_FAMILIES)[number];
 // selector `tier:pro|mid|normal` (see resolveTierModel below).
 export type AnthropicModelMap = Record<ClaudeFamily, string>;
 
-const DEFAULT_MAP: AnthropicModelMap = { default: 'auto', opus: 'auto', sonnet: 'auto', haiku: 'auto' };
+const DEFAULT_MAP: AnthropicModelMap = { default: 'auto:coding', opus: 'auto:coding', sonnet: 'auto:coding', haiku: 'auto:coding' };
 
 export const anthropicModelMapSchema = z.object({
   default: z.string().min(1).optional(),
@@ -107,6 +107,8 @@ export interface ResolvedAnthropicModel {
   // tier. The caller routes over this pool as a chain (tier order, then the
   // usual score order inside it) instead of the full catalog.
   tierDbIds?: number[];
+  // Named auto chain alias, e.g. "auto:coding" or "auto:smart"
+  autoAlias?: string;
 }
 
 // Resolve the db ids of every enabled model whose size_label belongs to the
@@ -157,6 +159,9 @@ export function resolveAnthropicModel(model?: string): ResolvedAnthropicModel {
       // An empty tier (operator re-labeled everything, or labels not yet
       // seeded) degrades gracefully to auto rather than failing the request.
       return tierDbIds.length ? { pinned: false, tierDbIds } : { pinned: false };
+    }
+    if (target && target.toLowerCase().startsWith('auto:')) {
+      return { pinned: false, autoAlias: target.toLowerCase() };
     }
     if (!target || target === 'auto') return { pinned: false };
     const row = lookupEnabled(target);

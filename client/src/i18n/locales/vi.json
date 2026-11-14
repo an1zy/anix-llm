@@ -16,7 +16,8 @@
     "modelsMenu": "Duyệt các loại mô hình",
     "agents": "Tác nhân",
     "logs": "Nhật ký",
-    "analyticsMenu": "Trang phân tích"
+    "analyticsMenu": "Trang phân tích",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Tạo tài khoản của bạn",

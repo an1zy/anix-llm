@@ -16,7 +16,8 @@
     "modelsMenu": "เรียกดูประเภทโมเดล",
     "agents": "เอเจนต์",
     "logs": "บันทึก",
-    "analyticsMenu": "หน้าการวิเคราะห์"
+    "analyticsMenu": "หน้าการวิเคราะห์",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "สร้างบัญชีของคุณ",

@@ -16,7 +16,8 @@
     "modelsMenu": "Перегляньте типи моделей",
     "agents": "Агенти",
     "logs": "Журнал",
-    "analyticsMenu": "Сторінки аналітики"
+    "analyticsMenu": "Сторінки аналітики",
+    "drops": "Роздачі"
   },
   "auth": {
     "createYourAccount": "Створіть свій акаунт",

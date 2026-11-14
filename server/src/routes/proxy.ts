@@ -394,11 +394,7 @@ proxyRouter.get(['/models/:id', '/models/*rest'], (req: Request, res: Response) 
 // The whole OpenAI-shaped /v1/models body, as one array of entries: the two
 // router entries (`auto`, `fusion`), the Claude-family discovery aliases (#880),
 // one entry per named fallback chain (`auto:<name>`), then the catalog rows.
-// Shared by GET /v1/models and GET /v1/models/:id so a model a client can LIST
-// is a model it can RETRIEVE with the identical shape — the retrieve endpoint
-// is OpenAI's `models.retrieve`, which LiteLLM-style gateways and eval
-// harnesses (lm-evaluation-harness, OpenAI SDK `.models.retrieve()`) call
-// before routing; a 404 there breaks those clients even when chat works.
+// Shared by GET /v1/models and GET /v1/models/:id so listed models match retrieved models.
 // The `?available=` / `?execution_status=` filters narrow only the catalog
 // rows — `auto`, `fusion` and the named chains are router entries, not models
 // with keys of their own.
@@ -450,7 +446,7 @@ function buildCatalogEntries(filters: { onlyAvailable?: boolean; executionStatus
         id: a.id,
         object: 'model' as const,
         created: 0,
-        owned_by: 'freellmapi',
+        owned_by: 'anix',
         name: a.displayName,
         context_window: autoContextWindow,
         context_length: autoContextWindow,
@@ -481,7 +477,7 @@ function buildCatalogEntries(filters: { onlyAvailable?: boolean; executionStatus
       id: AUTO_MODEL_ID,
       object: 'model',
       created: 0,
-      owned_by: 'freellmapi',
+      owned_by: 'anix',
       name: 'Auto (router picks the best available model)',
       context_window: autoContextWindow,
       // `context_length` is OpenRouter's field name and the one most
@@ -495,7 +491,7 @@ function buildCatalogEntries(filters: { onlyAvailable?: boolean; executionStatus
       id: FUSION_MODEL_ID,
       object: 'model',
       created: 0,
-      owned_by: 'freellmapi',
+      owned_by: 'anix',
       name: 'Fusion (panel of models answer in parallel, a judge synthesizes one answer)',
       context_window: autoContextWindow,
       context_length: autoContextWindow,
@@ -510,7 +506,7 @@ function buildCatalogEntries(filters: { onlyAvailable?: boolean; executionStatus
         id: `auto:${p.name.toLowerCase()}`,
         object: 'model',
         created: 0,
-        owned_by: 'freellmapi',
+        owned_by: 'anix',
         name: `Auto: ${p.name} (named fallback chain)`,
         context_window: ctx,
         context_length: ctx,

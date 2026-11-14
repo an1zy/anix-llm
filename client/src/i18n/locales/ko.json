@@ -16,7 +16,8 @@
     "modelsMenu": "모델 유형 찾아보기",
     "agents": "에이전트",
     "logs": "로그",
-    "analyticsMenu": "분석 페이지"
+    "analyticsMenu": "분석 페이지",
+    "drops": "드롭스"
   },
   "auth": {
     "createYourAccount": "계정 만들기",

@@ -16,7 +16,8 @@
     "modelsMenu": "ආකෘති වර්ග පිරික්සන්න",
     "agents": "නියෝජිතයන්",
     "logs": "ලොග",
-    "analyticsMenu": "විශ්ලේෂණ පිටු"
+    "analyticsMenu": "විශ්ලේෂණ පිටු",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "ඔබගේ ගිණුම සාදන්න",

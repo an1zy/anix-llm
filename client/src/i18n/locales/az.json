@@ -16,7 +16,8 @@
     "modelsMenu": "Model tiplərinə baxın",
     "agents": "Agentlər",
     "logs": "Loglar",
-    "analyticsMenu": "Analitika səhifələri"
+    "analyticsMenu": "Analitika səhifələri",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Hesabınızı yaradın",

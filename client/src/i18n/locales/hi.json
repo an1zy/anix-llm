@@ -16,7 +16,8 @@
     "modelsMenu": "मॉडल प्रकार ब्राउज़ करें",
     "agents": "एजेंट",
     "logs": "लॉग",
-    "analyticsMenu": "विश्लेषिकी पेज"
+    "analyticsMenu": "विश्लेषिकी पेज",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "अपना खाता बनाएं",

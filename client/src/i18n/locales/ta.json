@@ -16,7 +16,8 @@
     "modelsMenu": "மாதிரி வகைகளை உலாவவும்",
     "agents": "முகவர்கள்",
     "logs": "பதிவுகள்",
-    "analyticsMenu": "பகுப்பாய்வு பக்கங்கள்"
+    "analyticsMenu": "பகுப்பாய்வு பக்கங்கள்",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "உங்கள் கணக்கை உருவாக்கவும்",

@@ -25,3 +25,9 @@ update-hermes.sh
 
 # Monetization planning — private, never committed
 monetization/
+
+# Scratch & temporary context dumps
+ANIX_PROJECT_FOR_CLAUDE.md
+Kirunasvenskarna*
+*kirunasvenskarna*
+.playwright-mcp/

@@ -203,7 +203,10 @@ export function DecisionModelsView() {
 
   return (
     <div>
-      <PageHeader title={t('models.title')} description={t('decision.pageDesc')} divider={false} actions={<ModelsTabs />} />
+      <PageHeader title={t('models.title')} description={t('decision.pageDesc')} divider={false} />
+      <div className="mb-6 flex overflow-x-auto">
+        <ModelsTabs />
+      </div>
 
       <div className="space-y-4">
         <p className="text-xs text-muted-foreground">

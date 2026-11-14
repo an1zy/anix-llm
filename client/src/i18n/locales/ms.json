@@ -16,7 +16,8 @@
     "modelsMenu": "Semak jenis model",
     "agents": "Ejen",
     "logs": "Log",
-    "analyticsMenu": "Halaman analitik"
+    "analyticsMenu": "Halaman analitik",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Cipta akaun anda",

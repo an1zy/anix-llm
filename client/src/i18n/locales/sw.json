@@ -16,7 +16,8 @@
     "modelsMenu": "Vinjari aina za mifano",
     "agents": "Mawakala",
     "logs": "Kumbukumbu",
-    "analyticsMenu": "Kurasa za uchanganuzi"
+    "analyticsMenu": "Kurasa za uchanganuzi",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Fungua akaunti yako",

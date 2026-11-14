@@ -16,7 +16,8 @@
     "modelsMenu": "Böngészés modelltípusok",
     "agents": "Ügynökök",
     "logs": "Napló",
-    "analyticsMenu": "Elemzési oldalak"
+    "analyticsMenu": "Elemzési oldalak",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Hozza létre a fiókot",

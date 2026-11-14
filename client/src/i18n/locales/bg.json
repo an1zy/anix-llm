@@ -16,7 +16,8 @@
     "modelsMenu": "Видове модели за разглеждане",
     "agents": "Агенти",
     "logs": "Логове",
-    "analyticsMenu": "Страници с аналитика"
+    "analyticsMenu": "Страници с аналитика",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Създайте свой акаунт",

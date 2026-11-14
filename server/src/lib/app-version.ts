@@ -50,7 +50,7 @@ let cached: string | null | undefined;
 /** The released app version, or null when it cannot be established honestly. */
 export function getAppVersion(): string | null {
   if (cached !== undefined) return cached;
-  const fromEnv = process.env.FREEAPI_VERSION?.trim();
+  const fromEnv = process.env.ANIX_VERSION?.trim() || process.env.FREEAPI_VERSION?.trim();
   cached = fromEnv ? fromEnv : findDesktopVersion();
   return cached;
 }

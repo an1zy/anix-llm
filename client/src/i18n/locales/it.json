@@ -16,7 +16,8 @@
     "modelsMenu": "Sfoglia i tipi di modello",
     "agents": "Agenti",
     "logs": "Log",
-    "analyticsMenu": "Pagine di analisi"
+    "analyticsMenu": "Pagine di analisi",
+    "drops": "Ricompense"
   },
   "auth": {
     "createYourAccount": "Crea il tuo account",

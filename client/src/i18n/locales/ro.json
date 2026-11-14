@@ -16,7 +16,8 @@
     "modelsMenu": "Explorează tipurile de modele",
     "agents": "Agenți",
     "logs": "Jurnale",
-    "analyticsMenu": "Pagini de analiză"
+    "analyticsMenu": "Pagini de analiză",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Creează-ți contul",

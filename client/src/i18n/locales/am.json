@@ -16,7 +16,8 @@
     "modelsMenu": "የሞዴል አይነቶችን ያስሱ",
     "agents": "ወኪሎች",
     "logs": "መዝገቦች",
-    "analyticsMenu": "የአፈጻጸም ገጾች"
+    "analyticsMenu": "የአፈጻጸም ገጾች",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "መለያዎን ይፍጠሩ",

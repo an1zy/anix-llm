@@ -16,7 +16,8 @@
     "modelsMenu": "Mag-browse ng mga uri ng modelo",
     "agents": "Mga Agent",
     "logs": "Mga Log",
-    "analyticsMenu": "Mga pahina ng analitika"
+    "analyticsMenu": "Mga pahina ng analitika",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Gumawa ng iyong account",

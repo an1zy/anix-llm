@@ -25,7 +25,7 @@ export function getDb(): Db {
 }
 
 export function getDefaultDbPath(): string {
-  return process.env.FREEAPI_DB_PATH?.trim() || DB_PATH;
+  return process.env.ANIX_DB_PATH?.trim() || process.env.FREEAPI_DB_PATH?.trim() || DB_PATH;
 }
 
 /** Default factory: opens a better-sqlite3 connection at the given path. */
@@ -138,7 +138,7 @@ export function shouldHardenDataDir(
 /** Tri-state, matching CSP_UPGRADE_INSECURE_REQUESTS in lib/config.ts: on, off,
  *  or unset to leave the policy above in charge. */
 function parseDirHardeningOverride(): boolean | undefined {
-  const raw = process.env.FREEAPI_DB_DIR_HARDENING;
+  const raw = process.env.ANIX_DB_DIR_HARDENING ?? process.env.FREEAPI_DB_DIR_HARDENING;
   if (raw === undefined || raw.trim() === '') return undefined;
   const lower = raw.trim().toLowerCase();
   if (lower === 'true' || lower === '1' || lower === 'yes') return true;
@@ -253,7 +253,7 @@ export function getUnifiedApiKey(): string {
 
 export function regenerateUnifiedKey(): string {
   const db = getDb();
-  const key = `freellmapi-${crypto.randomBytes(24).toString('hex')}`;
+  const key = `anix-${crypto.randomBytes(24).toString('hex')}`;
   db.prepare("UPDATE settings SET value = ? WHERE key = 'unified_api_key'").run(key);
   return key;
 }

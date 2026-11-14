@@ -16,7 +16,8 @@
     "modelsMenu": "მოდელის ტიპების დათვალიერება",
     "agents": "აგენტები",
     "logs": "ჟურნალი",
-    "analyticsMenu": "ანალიტიკის გვერდები"
+    "analyticsMenu": "ანალიტიკის გვერდები",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "შექმენით თქვენი ანგარიში",

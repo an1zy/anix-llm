@@ -253,8 +253,10 @@ export default function EmbeddingsPage() {
         title={t('embeddings.title')}
         description={t('embeddings.description')}
         divider={false}
-        actions={<ModelsTabs />}
       />
+      <div className="mb-6 flex overflow-x-auto">
+        <ModelsTabs />
+      </div>
 
       <div className="space-y-6">
         <p className="text-xs text-muted-foreground">

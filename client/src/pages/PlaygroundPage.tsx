@@ -1062,12 +1062,32 @@ export default function PlaygroundPage() {
           {/* The chat sits in a centred column; the composer below shares its width. */}
           <div className="mx-auto h-full w-full max-w-3xl space-y-4">
           {messages.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-center">
+            <div className="flex flex-col items-center justify-center h-full text-center py-12">
               <div className="space-y-2 max-w-sm">
-                <p className="text-base font-medium">{t('playground.emptyTitle')}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base font-semibold text-white tracking-tight">{t('playground.emptyTitle')}</p>
+                <p className="text-xs text-neutral-400 font-mono">
                   {t('playground.emptyDescription', { model: activeModelLabel })}
                 </p>
+              </div>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-md">
+                {[
+                  'Привет! Как дела?',
+                  'Напиши код на TypeScript',
+                  'Объясни архитектуру ANIX',
+                  'Сгенерируй скрипт автоматизации',
+                ].map((promptText) => (
+                  <button
+                    key={promptText}
+                    type="button"
+                    onClick={() => {
+                      setInput(promptText);
+                      inputRef.current?.focus();
+                    }}
+                    className="btn-volumetric px-3.5 py-1.5 text-xs font-mono text-neutral-300 hover:text-white cursor-pointer active:translate-y-0.5"
+                  >
+                    {promptText}
+                  </button>
+                ))}
               </div>
             </div>
           ) : (

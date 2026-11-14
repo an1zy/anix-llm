@@ -616,7 +616,7 @@ export async function handleMessages(req: Request, res: Response): Promise<void>
   let strategyKey: string | undefined;
   const autoModelString = isAutoModel(requestedModel)
     ? requestedModel
-    : (isAutoModel(routedModel) ? routedModel : undefined);
+    : (isAutoModel(routedModel) ? routedModel : (resolved.autoAlias && isAutoModel(resolved.autoAlias) ? resolved.autoAlias : undefined));
   if (!resolved.pinned && autoModelString !== undefined) {
     try {
       resolvedChain = resolveRoutingChain(autoModelString);

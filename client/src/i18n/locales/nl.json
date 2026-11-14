@@ -16,7 +16,8 @@
     "modelsMenu": "Blader door modeltypes",
     "agents": "Agenten",
     "logs": "Logs",
-    "analyticsMenu": "Analytics-pagina's"
+    "analyticsMenu": "Analytics-pagina's",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Maak je account aan",

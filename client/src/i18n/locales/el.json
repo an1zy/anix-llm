@@ -16,7 +16,8 @@
     "modelsMenu": "Αναζήτηση τύπων μοντέλων",
     "agents": "Πράκτορες",
     "logs": "Καταγραφές",
-    "analyticsMenu": "Σελίδες ανάλυσης"
+    "analyticsMenu": "Σελίδες ανάλυσης",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "Δημιουργήστε τον λογαριασμό σας",

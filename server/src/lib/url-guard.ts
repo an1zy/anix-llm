@@ -205,7 +205,7 @@ async function defaultResolve(hostname: string): Promise<string[]> {
 }
 
 function blockPrivateEnabled(): boolean {
-  return /^(1|true|yes)$/i.test(process.env.FREEAPI_BLOCK_PRIVATE_PROVIDER_URLS ?? '');
+  return /^(1|true|yes)$/i.test(process.env.ANIX_BLOCK_PRIVATE_PROVIDER_URLS ?? process.env.FREEAPI_BLOCK_PRIVATE_PROVIDER_URLS ?? '');
 }
 
 /**

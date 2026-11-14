@@ -16,7 +16,8 @@
     "modelsMenu": "浏览模型类型",
     "agents": "智能体",
     "logs": "日志",
-    "analyticsMenu": "分析页面"
+    "analyticsMenu": "分析页面",
+    "drops": "空投/福利"
   },
   "auth": {
     "createYourAccount": "创建账号",

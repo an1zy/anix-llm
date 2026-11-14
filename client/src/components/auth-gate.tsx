@@ -129,18 +129,22 @@ function AuthForm({ mode, onAuthed }: { mode: 'setup' | 'login'; onAuthed: () =>
 
   return (
     <Centered>
-      <div className="mb-6 flex items-center gap-2">
-        <span className="inline-block size-2 rounded-full bg-foreground" />
-        <span className="font-semibold tracking-tight text-sm">FreeLLMAPI</span>
+      <div className="mb-6 flex items-center justify-between">
+        <span className="font-mono font-bold tracking-widest text-base text-foreground uppercase">
+          ANIX
+        </span>
+        <span className="font-mono text-[10px] text-muted-foreground bg-muted/40 border border-border/60 px-2 py-0.5 rounded">
+          AUTH
+        </span>
       </div>
-      <div className="rounded-3xl border bg-card p-6">
-        <h1 className="text-lg font-semibold tracking-tight">{isSetup ? t('auth.createYourAccount') : t('auth.signIn')}</h1>
-        <p className="text-sm text-muted-foreground mt-1.5 mb-6">
+      <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-2xl transition-all duration-300">
+        <h1 className="text-base font-semibold tracking-tight">{isSetup ? t('auth.createYourAccount') : t('auth.signIn')}</h1>
+        <p className="text-xs text-muted-foreground mt-1 mb-5">
           {isSetup
             ? t('auth.setupDescription')
             : t('auth.loginDescription')}
         </p>
-        <form onSubmit={submit} className="space-y-4" noValidate>
+        <form onSubmit={submit} className="space-y-3.5" noValidate>
           <div className="space-y-1.5">
             <Label className="text-xs" htmlFor="auth-email">{t('auth.email')}</Label>
             <Input
@@ -153,6 +157,7 @@ function AuthForm({ mode, onAuthed }: { mode: 'setup' | 'login'; onAuthed: () =>
               placeholder={t('auth.emailPlaceholder')}
               aria-invalid={showEmailError}
               aria-describedby={showEmailError ? 'auth-email-error' : undefined}
+              className="h-9 text-xs"
             />
             {attempted && <FieldError id="auth-email-error" error={emailError} />}
           </div>
@@ -166,6 +171,7 @@ function AuthForm({ mode, onAuthed }: { mode: 'setup' | 'login'; onAuthed: () =>
               placeholder={isSetup ? t('auth.passwordPlaceholderSetup') : t('auth.passwordPlaceholderLogin')}
               aria-invalid={showPasswordError}
               aria-describedby={showPasswordError ? 'auth-password-error' : undefined}
+              className="h-9 text-xs"
             />
             {attempted && <FieldError id="auth-password-error" error={passwordError} />}
           </div>
@@ -180,30 +186,62 @@ function AuthForm({ mode, onAuthed }: { mode: 'setup' | 'login'; onAuthed: () =>
                 onChange={e => setSetupCode(e.target.value)}
                 placeholder={t('auth.setupCodePlaceholder')}
                 aria-describedby="auth-setup-code-hint"
+                className="h-9 text-xs"
               />
               <p id="auth-setup-code-hint" className="text-xs text-muted-foreground">{t('auth.setupCodeHint')}</p>
             </div>
           )}
-          {/* A server rejection is the one error nobody can predict; it gets the same
-              announcement and the same visual weight as the inline field errors. */}
           {error && (
             <p role="alert" className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
               {error}
             </p>
           )}
-          <Button type="submit" className="w-full h-10" disabled={busy}>
-            {busy && <Loader2 className="animate-spin" aria-hidden />}
+          <Button type="submit" className="w-full h-9 text-xs font-medium transition-all duration-200 active:scale-[0.98]" disabled={busy}>
+            {busy && <Loader2 className="animate-spin size-3.5 mr-1.5" aria-hidden />}
             {busy ? (isSetup ? t('auth.creating') : t('auth.signingIn')) : isSetup ? t('auth.createAccount') : t('auth.signIn')}
           </Button>
         </form>
+
         {!isSetup && (
-          <button
-            type="button"
-            onClick={() => setShowForgot(true)}
-            className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {t('auth.forgotPassword')}
-          </button>
+          <div className="mt-4 pt-4 border-t border-border/60 space-y-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={async () => {
+                setEmail('admin@local.host');
+                setPassword('admin12345');
+                setBusy(true);
+                setError('');
+                try {
+                  const res = await apiFetch<{ token: string }>('/api/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email: 'admin@local.host', password: 'admin12345' }),
+                  });
+                  setToken(res.token);
+                  onAuthed();
+                } catch (err) {
+                  setError((err as Error).message);
+                } finally {
+                  setBusy(false);
+                }
+              }}
+              disabled={busy}
+              className="w-full h-9 text-xs font-mono transition-all duration-200 hover:bg-neutral-800 hover:text-white active:scale-[0.98]"
+            >
+              Войти как Admin
+            </Button>
+            <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono px-1">
+              <span>admin@local.host</span>
+              <span>admin12345</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowForgot(true)}
+              className="mt-2 w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t('auth.forgotPassword')}
+            </button>
+          </div>
         )}
       </div>
     </Centered>
@@ -273,9 +311,10 @@ function ForgotPasswordForm({ onBack, onAuthed }: { onBack: () => void; onAuthed
 
   return (
     <Centered>
-      <div className="mb-6 flex items-center gap-2">
-        <span className="inline-block size-2 rounded-full bg-foreground" />
-        <span className="font-semibold tracking-tight text-sm">FreeLLMAPI</span>
+      <div className="mb-6 flex items-center justify-between">
+        <span className="font-mono font-bold tracking-widest text-base text-foreground uppercase">
+          ANIX
+        </span>
       </div>
       <div className="rounded-3xl border bg-card p-6">
         <h1 className="text-base font-medium">{t('auth.forgotPassword')}</h1>

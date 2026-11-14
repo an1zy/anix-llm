@@ -55,8 +55,15 @@ interface ProfileRow {
  */
 export function resolveAuth(token: string | undefined): ResolvedAuth | null {
   if (!token) return null;
-  if (timingSafeStringEqual(token, getUnifiedApiKey())) {
+  const currentKey = getUnifiedApiKey();
+  if (timingSafeStringEqual(token, currentKey)) {
     return { kind: 'unified', systemPrompt: null };
+  }
+  // Backwards compatibility for legacy prefix
+  if (token.startsWith('freellmapi-') && currentKey.startsWith('anix-')) {
+    if (timingSafeStringEqual(token.replace(/^freellmapi-/, 'anix-'), currentKey)) {
+      return { kind: 'unified', systemPrompt: null };
+    }
   }
   if (!token.startsWith(CLIENT_PROFILE_KEY_PREFIX)) return null;
   const row = getDb().prepare(

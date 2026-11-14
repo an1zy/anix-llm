@@ -16,7 +16,8 @@
     "modelsMenu": "瀏覽模型類型",
     "agents": "代理程式",
     "logs": "日誌",
-    "analyticsMenu": "分析頁面"
+    "analyticsMenu": "分析頁面",
+    "drops": "空投/福利"
   },
   "auth": {
     "createYourAccount": "建立您的帳號",

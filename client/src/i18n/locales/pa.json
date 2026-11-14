@@ -16,7 +16,8 @@
     "modelsMenu": "ਮਾਡਲ ਕਿਸਮਾਂ ਨੂੰ ਬ੍ਰਾਊਜ਼ ਕਰੋ",
     "agents": "ਏਜੰਟ",
     "logs": "ਲੌਗ",
-    "analyticsMenu": "ਵਿਸ਼ਲੇਸ਼ਣ ਪੰਨੇ"
+    "analyticsMenu": "ਵਿਸ਼ਲੇਸ਼ਣ ਪੰਨੇ",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "ਆਪਣਾ ਖਾਤਾ ਬਣਾਓ",

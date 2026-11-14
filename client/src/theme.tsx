@@ -8,14 +8,13 @@ import {
 import { ThemeContext, type Theme } from '@/theme-context'
 
 function getStoredTheme(): Theme {
-  if (typeof window === 'undefined') return 'system'
+  if (typeof window === 'undefined') return 'dark'
   const stored = window.localStorage.getItem('theme')
-  return stored === 'light' || stored === 'dark' ? stored : 'system'
+  return stored === 'light' ? 'light' : 'dark'
 }
 
 function getSystemDark(): boolean {
-  return typeof window !== 'undefined'
-    && window.matchMedia('(prefers-color-scheme: dark)').matches
+  return true
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

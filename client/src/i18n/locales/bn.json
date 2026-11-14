@@ -16,7 +16,8 @@
     "modelsMenu": "মডেলের ধরন ব্রাউজ করুন",
     "agents": "এজেন্ট",
     "logs": "লগ",
-    "analyticsMenu": "বিশ্লেষণ পৃষ্ঠা"
+    "analyticsMenu": "বিশ্লেষণ পৃষ্ঠা",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "আপনার অ্যাকাউন্ট তৈরি করুন",

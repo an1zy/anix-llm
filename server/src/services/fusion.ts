@@ -381,8 +381,14 @@ export async function runModelCall(
         // Provenance mirrors cooldownDecisionForError (lib/fallback-loop.ts):
         // credit/tier benches are never probe-recovered, Retry-After-backed
         // ones only when our heuristic outlasted the provider's own retry time.
-        const decision = isPaymentRequiredError(err)
-          ? { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' as const }
+        const errMsg = String(err?.message ?? '');
+        const retryMatch = errMsg.match(/retry after (\d+)\s*s/i) || errMsg.match(/retry in (\d+)\s*s/i);
+        const decision = retryMatch
+          ? { durationMs: Math.max(parseInt(retryMatch[1], 10) * 1000, 10_000), source: 'authoritative' as const }
+          : isPaymentRequiredError(err)
+          ? (route.platform === 'custom' || /free limit reached|per ip/i.test(errMsg)
+              ? { durationMs: 45_000, source: 'heuristic' as const }
+              : { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' as const })
           : isModelAccessForbiddenError(err)
           ? { durationMs: getModelForbiddenCooldownMs(), source: 'tier' as const }
           : getCooldownDecisionForLimit(route.platform, route.modelId, route.keyId, { rpd: route.rpdLimit, tpd: route.tpdLimit }, err.retryAfterMs, { quotaSignal: isRateLimitSignal(err) });
@@ -493,8 +499,14 @@ async function runJudgeStreaming(
           continue;
         }
         // Same provenance mapping as the non-stream path above.
-        const decision = isPaymentRequiredError(err)
-          ? { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' as const }
+        const errMsg = String(err?.message ?? '');
+        const retryMatch = errMsg.match(/retry after (\d+)\s*s/i) || errMsg.match(/retry in (\d+)\s*s/i);
+        const decision = retryMatch
+          ? { durationMs: Math.max(parseInt(retryMatch[1], 10) * 1000, 10_000), source: 'authoritative' as const }
+          : isPaymentRequiredError(err)
+          ? (route.platform === 'custom' || /free limit reached|per ip/i.test(errMsg)
+              ? { durationMs: 45_000, source: 'heuristic' as const }
+              : { durationMs: getPaymentRequiredCooldownMs(), source: 'credit' as const })
           : isModelAccessForbiddenError(err)
           ? { durationMs: getModelForbiddenCooldownMs(), source: 'tier' as const }
           : getCooldownDecisionForLimit(route.platform, route.modelId, route.keyId, { rpd: route.rpdLimit, tpd: route.tpdLimit }, err.retryAfterMs, { quotaSignal: isRateLimitSignal(err) });

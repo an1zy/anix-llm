@@ -16,7 +16,8 @@
     "modelsMenu": "انواع مدل ها را مرور کنید",
     "agents": "عامل ها",
     "logs": "لاگ‌ها",
-    "analyticsMenu": "صفحه‌های تجزیه و تحلیل"
+    "analyticsMenu": "صفحه‌های تجزیه و تحلیل",
+    "drops": "Drops"
   },
   "auth": {
     "createYourAccount": "حساب کاربری خود را ایجاد کنید",
