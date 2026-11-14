@@ -20,7 +20,7 @@ export type ClaudeFamily = (typeof CLAUDE_FAMILIES)[number];
 // selector `tier:pro|mid|normal` (see resolveTierModel below).
 export type AnthropicModelMap = Record<ClaudeFamily, string>;
 
-const DEFAULT_MAP: AnthropicModelMap = { default: 'auto:coding', opus: 'auto:coding', sonnet: 'auto:coding', haiku: 'auto:coding' };
+const DEFAULT_MAP: AnthropicModelMap = { default: 'auto', opus: 'auto', sonnet: 'auto', haiku: 'auto' };
 
 export const anthropicModelMapSchema = z.object({
   default: z.string().min(1).optional(),

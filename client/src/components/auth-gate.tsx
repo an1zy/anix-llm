@@ -578,8 +578,8 @@ export function AuthGate({ children }: { children: ReactNode }) {
     }
     return <Centered><p className="flex items-center justify-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-3.5 animate-spin" aria-hidden />{t('auth.loading')}</p></Centered>
   }
-  if (data.needsSetup) return <AuthForm mode="setup" onAuthed={onAuthed} />
-  if (!data.authenticated) return <AuthForm mode="login" onAuthed={onAuthed} />
+  if (data.needsSetup && !data.desktop) return <AuthForm mode="setup" onAuthed={onAuthed} />
+  if (!data.authenticated && !data.desktop) return <AuthForm mode="login" onAuthed={onAuthed} />
 
   return <>{children}</>
 }

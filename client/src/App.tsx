@@ -218,9 +218,8 @@ function AccountMenuItems({
         <RefreshCw />
         {updatesLabel}
       </DropdownMenuItem>
-      {/* Desktop signs in with a hidden local account, so it has no credentials
-          to change and no session to end. */}
-      {!isDesktopApp && (
+      {/* Local ANIX install signs in seamlessly with a local account without passwords */}
+      {!isDesktopApp && false && (
         <>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onChangeEmail}>

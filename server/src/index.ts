@@ -1,4 +1,7 @@
 import './env.js';
+// ANIX local router defaults to frictionless desktop/local mode (no registration/login required)
+if (!process.env.ANIX_DESKTOP) process.env.ANIX_DESKTOP = '1';
+if (!process.env.FREEAPI_DESKTOP) process.env.FREEAPI_DESKTOP = '1';
 import { createApp } from './app.js';
 import { initDb, getDb } from './db/index.js';
 import { startHealthChecker, checkAllKeys } from './services/health.js';
